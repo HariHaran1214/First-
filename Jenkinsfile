@@ -13,6 +13,19 @@ pipeline {
             }
         }
         
+        stage('Push to Docker Hub') {
+            steps {
+                // Log in to Docker Hub
+                sh 'docker login -u HariHaran10 -p Hari@1214'
+                
+                // Tag the Docker image with your Docker Hub username and repository name
+                sh 'docker tag my-flask-app HariHaran10/my-flask-app'
+                
+                // Push the Docker image to Docker Hub
+                sh 'docker push HariHaran10/my-flask-app'
+            }
+        }
+        
         stage('Deploy') {
             environment {
                 // Define any environment variables needed for deployment
@@ -23,7 +36,7 @@ pipeline {
             
             steps {
                 // Deploy the Docker image to your desired environment
-                sh 'docker run -d -p 5000:5000 --name my-app my-flask-app'
+                sh 'docker run -d -p 5000:5000 --name my-app HariHaran10/my-flask-app'
             }
         }
     }
